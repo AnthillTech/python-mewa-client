@@ -11,10 +11,16 @@ connection = Connection("ws://mewa.cc/ws")
 def onConnected():
     connection.getDevices()
 #     connection.close()
+
+    
+def onDevicesEvent(devices):
+    print("Found devices:")
+    print(devices)
     
 
 if __name__ == "__main__":
-    connection.connect("test", "python", "pass")
     connection.onConnected = onConnected
+    connection.onDevicesEvent = onDevicesEvent
+    connection.connect("test", "python", "pass")
 
 
