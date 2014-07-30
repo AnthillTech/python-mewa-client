@@ -3,6 +3,11 @@
 ## About
 This is Python library which simplifies connection to the [Channel Server](https://github.com/AnthillTech/mewa).
 
+## Requirements
+
+* [WebSocket client](https://github.com/liris/websocket-client)
+
+
 ## Sample usage pattern
 
 * connectToChannel
