@@ -17,7 +17,6 @@ pip install mewa
 
 ## Sample usage pattern
 
-List all devices connected to the channel
 
 ```python
 connection = Connection("ws://mewa.cc/ws")
@@ -36,11 +35,9 @@ def onMessage(fromDevice, eventId, params):
 def onDevicesEvent(devices):
     print("Found devices:")
     print(devices)
-
     
 def onPropertyChanged(device, propertyName, value):
     print("Property %s on device %s was changed to %s" % (device, propertyName, value))
-    
 
 if __name__ == "__main__":
     connection.onConnected = onConnected
@@ -48,9 +45,6 @@ if __name__ == "__main__":
     connection.onMessage = onMessage
     connection.onDevicesEvent = onDevicesEvent
     connection.connect("test", "python", "pass")
-
-
-
 ```
 
 ## Redistributing
