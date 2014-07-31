@@ -46,9 +46,7 @@ class Connection(object):
         
     def setDeviceProperty(self, device, propertyName, value):
         ''' Set property on given device '''
-        print("set device property")
-#             msg = {message: "set-device-property", device: device, property: property, value: value}
-#             _connection._sendMsg(msg);
+        self._send( Protocol.setDeviceProperty(device, propertyName, value) )
         
     def onSetProperty(self, propertyName, value):
         ''' Received command to set property to given value '''
@@ -56,9 +54,7 @@ class Connection(object):
         
     def notifyPropertyChanged(self, propertyName, value):
         ''' Notify devices in channel that property changed '''
-        print("notify property changed")
-#             msg = {message: "notify-property-changed", property: property, value: value}
-#             _connection._sendMsg(msg);
+        self._send( Protocol.notifyPropertyChanged(propertyName, value) )
         
     def onPropertyChanged(self, device, propertyName, value):
         ''' Received notiication about property change '''
@@ -66,9 +62,7 @@ class Connection(object):
         
     def getDeviceProperty(self, device, propertyName):
         ''' Set device property '''
-        print("get device property")
-#             msg = {message: "get-device-property", device: device, property: property}
-#             _connection._sendMsg(msg);
+        self._send( Protocol.getDeviceProperty(device, propertyName) )
         
     def onGetProperty(self, fromDevice, propertyName):
         ''' Received set property command '''
@@ -76,9 +70,7 @@ class Connection(object):
         
     def sendPropertyValue(self, device, propertyName, value):
         ''' Send property value to another device'''
-        print("send property value")
-#             msg = {message: "send-property-value", toDevice: device, property: property, value: value}
-#             _connection._sendMsg(msg);
+        self._send( Protocol.sendPropertyValue(device, propertyName, value) )
         
     def onPropertyValue(self, fromDevice, propertyName, value):
         ''' Received set property command '''
