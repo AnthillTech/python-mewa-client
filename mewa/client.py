@@ -44,37 +44,21 @@ class Connection(object):
         ''' Some device left channel '''
         print(name + " left channel")
         
-    def setDeviceProperty(self, device, propertyName, value):
-        ''' Set property on given device '''
-        self._send( Protocol.setDeviceProperty(device, propertyName, value) )
+    def sendEvent(self, eventId, params):
+        ''' Send event to all devices '''
+        self._send( Protocol.sendEvent(eventId, params) )
         
-    def onSetProperty(self, propertyName, value):
+    def onEvent(self, device, eventId, params):
         ''' Received command to set property to given value '''
-        print("on set property")
+        print("event received")
         
-    def notifyPropertyChanged(self, propertyName, value):
-        ''' Notify devices in channel that property changed '''
-        self._send( Protocol.notifyPropertyChanged(propertyName, value) )
+    def sendMessage(self, device, msgId, params):
+        ''' Send message to specific device '''
+        self._send( Protocol.sendMessage(device, msgId, params) )
         
-    def onPropertyChanged(self, device, propertyName, value):
-        ''' Received notiication about property change '''
-        print("on property changed")
-        
-    def getDeviceProperty(self, device, propertyName):
-        ''' Set device property '''
-        self._send( Protocol.getDeviceProperty(device, propertyName) )
-        
-    def onGetProperty(self, fromDevice, propertyName):
-        ''' Received set property command '''
-        print("on get property")
-        
-    def sendPropertyValue(self, device, propertyName, value):
-        ''' Send property value to another device'''
-        self._send( Protocol.sendPropertyValue(device, propertyName, value) )
-        
-    def onPropertyValue(self, fromDevice, propertyName, value):
-        ''' Received set property command '''
-        print("on property value")
+    def onMessage(self, device, msgId, params):
+        ''' Received message from device '''
+        print("Message received")
         
     def getDevices(self):
         ''' Get list of all connected to the channel devices '''
@@ -110,14 +94,10 @@ class Connection(object):
             self.onDeviceJoinedChannel(event["device"]);
         elif event['message'] == "left-channel":
             self.onDeviceLeftChannel(event["device"]);
-        elif event['message'] == "set-property":
-            self.onSetProperty(event["property"], event["value"]);
-        elif event['message'] == "get-property":
-            self.onGetProperty(event["fromDevice"], event["property"]);
-        elif event['message'] == "property-value":
-            self.onPropertyValue(event["device"], event["property"], event["value"]);
-        elif event['message'] == "property-changed":
-            self.onPropertyChanged(event["device"], event["property"], event["value"]);
+        elif event['message'] == "event":
+            self.onEvent(event["device"], event["id"], event["params"]);
+        elif event['message'] == "message":
+            self.onMessage(event["device"], event["id"], event["params"]);
         elif event['message'] == "devices-event":
             self.onDevicesEvent(event["devices"]);
         

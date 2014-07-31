@@ -11,22 +11,15 @@ connection = Connection("ws://mewa.cc/ws")
 
 def onConnected():
     connection.getDevices()
-    connection.notifyPropertyChanged("level", "123")
-#     connection.setDeviceProperty("device8", "heat", "34")
-    connection.getDeviceProperty("device8", "level")
+    connection.sendEvent("serviceA.event2", "78")
+    connection.sendMessage("device66", "serviceA.level", "34")
 #     connection.close()
 
-def onGetProperty(fromDevice, propertyName):
-    connection.sendPropertyValue(fromDevice, propertyName, "444")
+def onEvent(fromDevice, eventId, params):
+    print("received event %s from %s with params %s" % (fromDevice, eventId, params))
 
-
-def onSetProperty(propertyName, value):
-    print("set property %s to value %s" % (propertyName, value))
-
-
-def onPropertyValue(fromDevice, propertyName, value):
-    print("Received from %s: %s = %s" % (fromDevice, propertyName, value))
-
+def onMessage(fromDevice, eventId, params):
+    print("received message %s from %s with params %s" % (fromDevice, eventId, params))
     
 def onDevicesEvent(devices):
     print("Found devices:")
@@ -39,11 +32,9 @@ def onPropertyChanged(device, propertyName, value):
 
 if __name__ == "__main__":
     connection.onConnected = onConnected
-    connection.onGetProperty = onGetProperty
+    connection.onEvent = onEvent
+    connection.onMessage = onMessage
     connection.onDevicesEvent = onDevicesEvent
-    connection.onPropertyChanged = onPropertyChanged
-    connection.onSetProperty = onSetProperty
-    connection.onPropertyValue = onPropertyValue
     connection.connect("test", "python", "pass")
 
 
