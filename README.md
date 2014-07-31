@@ -8,6 +8,13 @@ This is Python library which simplifies connection to the [Channel Server](https
 * [WebSocket client](https://github.com/liris/websocket-client)
 
 
+## Instalation
+
+```bash
+pip install mewa
+```
+
+
 ## Sample usage pattern
 
 List all devices connected to the channel
