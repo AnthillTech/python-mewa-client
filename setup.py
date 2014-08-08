@@ -6,14 +6,13 @@ from distutils.core import setup
 
 setup(
     name="mewa",
-    version="0.3-dev",
+    version="0.6",
     description="Client for Mewa server",
     maintainer="Krzysztof Langner",
     maintainer_email="klangner@gmail.com",
     license="BSD3",
-    url='https://github.com/AnthillTech/python-mewa-client',
+    url='http://github.com/AnthillTech/python-mewa-client',
     packages=[
         'mewa',
     ],
-    long_description=open('README.md').read(),
 )

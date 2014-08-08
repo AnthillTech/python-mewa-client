@@ -6,8 +6,8 @@ Created on 27 lip 2014
 
 from mewa.client import Connection
 
-connection = Connection("ws://mewa.cc/ws")
-# connection = Connection("ws://localhost:9000/ws")
+# connection = Connection("ws://mewa.cc/ws")
+connection = Connection("ws://localhost:9000/ws")
 
 def onConnected():
     connection.getDevices()

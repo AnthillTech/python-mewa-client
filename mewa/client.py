@@ -73,12 +73,14 @@ class Connection(object):
     def _run(self, *args):
         ''' Run websocket client
         '''
-        self._is_running = True
-        while self._is_running:
-            msg = self._ws.recv()
-            self._on_message(msg)
-        self._ws.close()
-        print("Socket closed")
+        try:
+            self._is_running = True
+            while self._is_running:
+                msg = self._ws.recv()
+                self._on_message(msg)
+            self._ws.close()
+        except Exception:
+            self.onError("exception")
         
     def _send(self, msg):
         print("Send: " + msg)
