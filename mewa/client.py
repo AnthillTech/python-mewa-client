@@ -83,7 +83,6 @@ class Connection(object):
             self.onError("exception")
         
     def _send(self, msg):
-        print("Send: " + msg)
         self._ws.send(msg)
         
     def _on_message(self, msg):
