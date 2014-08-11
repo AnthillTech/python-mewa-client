@@ -96,9 +96,15 @@ class Connection(object):
         elif event['message'] == "left-channel":
             self.onDeviceLeftChannel(event["device"]);
         elif event['message'] == "event":
-            self.onEvent(event["device"], event["id"], event["params"]);
+            self.onEvent(event["device"], event["id"], self._parseParams(event["params"]));
         elif event['message'] == "message":
-            self.onMessage(event["device"], event["id"], event["params"]);
+            self.onMessage(event["device"], event["id"], self._parseParams(event["params"]));
         elif event['message'] == "devices-event":
             self.onDevicesEvent(event["devices"]);
+            
+    def _parseParams(self, params):
+        try:
+            return json.loads(params)
+        except Exception:
+            return "error parsing params"
         
