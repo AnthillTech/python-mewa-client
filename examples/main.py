@@ -14,7 +14,7 @@ def onConnected():
     connection.getDevices()
     connection.sendEvent("serviceA.event2", "78")
     params = [{"type": "com.followit24.service.switch", "name": "switch2"}, {"type": "com.followit24.service.switch", "name": "switch1"}, {"type": "com.followit24.service.switch", "name": "switch0"}]
-    connection.sendMessage("device13", "serviceA.level", params)
+    connection.sendMessage("device66", "serviceA.level", params)
 #     connection.close()
 
 def onEvent(fromDevice, eventId, params):
