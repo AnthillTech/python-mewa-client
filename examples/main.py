@@ -6,13 +6,15 @@ Created on 27 lip 2014
 
 from mewa.client import Connection
 
+
 # connection = Connection("ws://mewa.cc/ws")
 connection = Connection("ws://localhost:9000/ws")
 
 def onConnected():
     connection.getDevices()
     connection.sendEvent("serviceA.event2", "78")
-    connection.sendMessage("device66", "serviceA.level", "34")
+    params = [{"type": "com.followit24.service.switch", "name": "switch2"}, {"type": "com.followit24.service.switch", "name": "switch1"}, {"type": "com.followit24.service.switch", "name": "switch0"}]
+    connection.sendMessage("device66", "serviceA.level", params)
 #     connection.close()
 
 def onEvent(fromDevice, eventId, params):
