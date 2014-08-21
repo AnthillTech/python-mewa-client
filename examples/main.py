@@ -7,7 +7,7 @@ Created on 27 lip 2014
 from mewa.client import Connection
 
 
-# connection = Connection("ws://mewa.cc/ws")
+#connection = Connection("ws://mewa.cc/ws")
 connection = Connection("ws://localhost:9000/ws")
 
 def onConnected():
@@ -26,10 +26,12 @@ def onMessage(fromDevice, eventId, params):
 def onDevicesEvent(devices):
     print("Found devices:")
     print(devices)
-
     
 def onPropertyChanged(device, propertyName, value):
     print("Property %s on device %s was changed to %s" % (device, propertyName, value))
+    
+def onError(reason):
+    print("Error: " + reason)
     
 
 if __name__ == "__main__":
@@ -37,6 +39,7 @@ if __name__ == "__main__":
     connection.onEvent = onEvent
     connection.onMessage = onMessage
     connection.onDevicesEvent = onDevicesEvent
-    connection.connect("test", "python", "pass")
+    connection.onError = onError
+    connection.connect("test", "python", "test")
 
 

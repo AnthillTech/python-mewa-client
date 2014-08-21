@@ -6,7 +6,7 @@ from distutils.core import setup
 
 setup(
     name="mewa",
-    version="0.9",
+    version="0.10",
     description="Client for Mewa server",
     maintainer="Krzysztof Langner",
     maintainer_email="klangner@gmail.com",
