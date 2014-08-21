@@ -101,6 +101,8 @@ class Connection(object):
             self.onMessage(event["device"], event["id"], self._parseParams(event["params"]));
         elif event['message'] == "devices-event":
             self.onDevicesEvent(event["devices"]);
+        else:
+            self.onError(event["message"]);
             
     def _parseParams(self, params):
         try:
