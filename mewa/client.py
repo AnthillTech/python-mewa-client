@@ -36,11 +36,11 @@ class Connection(object):
         ''' Error message received from server '''
         print("Error: " + reason)
         
-    def onDeviceJoinedChannel(self, name):
+    def onDeviceJoinedChannel(self, timestamp, name):
         ''' Some device joined channel '''
         print(name + " joined channel")
 
-    def onDeviceLeftChannel(self, name):
+    def onDeviceLeftChannel(self, timestamp, name):
         ''' Some device left channel '''
         print(name + " left channel")
         
@@ -48,7 +48,7 @@ class Connection(object):
         ''' Send event to all devices '''
         self._send( Protocol.sendEvent(eventId, params) )
         
-    def onEvent(self, device, eventId, params):
+    def onEvent(self, timestamp, device, eventId, params):
         ''' Received command to set property to given value '''
         print("event received")
         
@@ -56,7 +56,7 @@ class Connection(object):
         ''' Send message to specific device '''
         self._send( Protocol.sendMessage(device, msgId, params) )
         
-    def onMessage(self, device, msgId, params):
+    def onMessage(self, timestamp, device, msgId, params):
         ''' Received message from device '''
         print("Message received")
         
@@ -64,7 +64,7 @@ class Connection(object):
         ''' Get list of all connected to the channel devices '''
         self._send(Protocol.getDevices())
         
-    def onDevicesEvent(self, devices):
+    def onDevicesEvent(self, timestamp, devices):
         ''' Received set property command '''
         print("devices list:")
         print(devices)
@@ -87,20 +87,20 @@ class Connection(object):
         
     def _on_message(self, msg):
         event = json.loads(msg)
-        if event['message'] == 'connected':
+        if event['type'] == 'connected':
             self.onConnected()
-        elif event['message'] == 'disconnected':
+        elif event['type'] == 'disconnected':
             self._is_running = False
-        elif event['message'] == "joined-channel":
-            self.onDeviceJoinedChannel(event["device"]);
-        elif event['message'] == "left-channel":
-            self.onDeviceLeftChannel(event["device"]);
-        elif event['message'] == "event":
-            self.onEvent(event["device"], event["id"], self._parseParams(event["params"]));
-        elif event['message'] == "message":
-            self.onMessage(event["device"], event["id"], self._parseParams(event["params"]));
-        elif event['message'] == "devices-event":
-            self.onDevicesEvent(event["devices"]);
+        elif event['type'] == "joined-channel":
+            self.onDeviceJoinedChannel(event["time"], event["device"]);
+        elif event['type'] == "left-channel":
+            self.onDeviceLeftChannel(event["time"], event["device"]);
+        elif event['type'] == "event":
+            self.onEvent(event["time"], event["device"], event["id"], self._parseParams(event["params"]));
+        elif event['type'] == "message":
+            self.onMessage(event["time"], event["device"], event["id"], self._parseParams(event["params"]));
+        elif event['type'] == "devices-event":
+            self.onDevicesEvent(event["time"], event["devices"]);
         else:
             self.onError(event["message"]);
             

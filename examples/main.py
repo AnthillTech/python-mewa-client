@@ -17,18 +17,15 @@ def onConnected():
     connection.sendMessage("device66", "serviceA.level", params)
 #     connection.close()
 
-def onEvent(fromDevice, eventId, params):
-    print("received event %s from %s with params %s" % (fromDevice, eventId, params))
+def onEvent(timestamp, fromDevice, eventId, params):
+    print("received event %s from %s with params %s" % (eventId, fromDevice, params))
 
-def onMessage(fromDevice, eventId, params):
-    print("received message %s from %s with params %s" % (fromDevice, eventId, params))
+def onMessage(timestamp, fromDevice, msgId, params):
+    print(timestamp + ": received message %s from %s with params %s" % (timestamp, msgId, fromDevice, params))
     
-def onDevicesEvent(devices):
-    print("Found devices:")
+def onDevicesEvent(timestamp, devices):
+    print(timestamp + ": Found devices:")
     print(devices)
-    
-def onPropertyChanged(device, propertyName, value):
-    print("Property %s on device %s was changed to %s" % (device, propertyName, value))
     
 def onError(reason):
     print("Error: " + reason)
