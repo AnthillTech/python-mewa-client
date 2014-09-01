@@ -35,9 +35,9 @@ def onError(reason):
 if __name__ == "__main__":
     connection.onConnected = onConnected
     connection.onEvent = onEvent
-#     connection.onMessage = onMessage
+    connection.onMessage = onMessage
     connection.onDevicesEvent = onDevicesEvent
     connection.onError = onError
-    connection.connect("test", "python", "test", [URI_DISCOVERY])
+    connection.connect("test", "python", "test")
 
 
