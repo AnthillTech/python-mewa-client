@@ -7,6 +7,7 @@ from websocket import create_connection
 from threading import Thread
 from mewa import Protocol
 import json
+from mewa.service import URI_DISCOVERY_GETSERVICES, URI_DISCOVERY_SERVICELIST
 
 
 class Connection(object):
@@ -18,10 +19,10 @@ class Connection(object):
         ''' Establish web socket communication '''
         self._ws = create_connection(url)
         self._thread = Thread(target=self._run, args=()).start()
-
         
-    def connect(self, channel, device, password):
+    def connect(self, channel, device, password, services = []):
         ''' Connect device to the channel '''
+        self._services = services
         self._send( Protocol.connect(channel, device, password) )
         
     def close(self):
@@ -57,8 +58,11 @@ class Connection(object):
         self._send( Protocol.sendMessage(device, msgId, params) )
         
     def onMessage(self, timestamp, device, msgId, params):
-        ''' Received message from device '''
-        print("Message received")
+        ''' Received message from device.
+            Supports service discovery.
+         '''
+        if  msgId == URI_DISCOVERY_GETSERVICES:
+            self.sendMessage(device, URI_DISCOVERY_SERVICELIST, self._services)
         
     def getDevices(self):
         ''' Get list of all connected to the channel devices '''
@@ -79,13 +83,14 @@ class Connection(object):
                 msg = self._ws.recv()
                 self._on_message(msg)
             self._ws.close()
-        except Exception:
-            self.onError("exception")
+        except Exception as e:
+            self.onError(str(e))
         
     def _send(self, msg):
         self._ws.send(msg)
         
     def _on_message(self, msg):
+        print(msg)
         event = json.loads(msg)
         if event['type'] == 'connected':
             self.onConnected()
@@ -106,7 +111,10 @@ class Connection(object):
             
     def _parseParams(self, params):
         try:
-            return json.loads(params)
-        except Exception:
-            return "error parsing params"
+            if len(params) > 0:
+                return json.loads(params)
+            else:
+                return {}
+        except Exception as e :
+            return str(e)
         

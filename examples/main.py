@@ -5,6 +5,7 @@ Created on 27 lip 2014
 '''
 
 from mewa.client import Connection
+from mewa.service import URI_DISCOVERY
 
 
 #connection = Connection("ws://mewa.cc/ws")
@@ -34,9 +35,9 @@ def onError(reason):
 if __name__ == "__main__":
     connection.onConnected = onConnected
     connection.onEvent = onEvent
-    connection.onMessage = onMessage
+#     connection.onMessage = onMessage
     connection.onDevicesEvent = onDevicesEvent
     connection.onError = onError
-    connection.connect("test", "python", "test")
+    connection.connect("test", "python", "test", [URI_DISCOVERY])
 
 
