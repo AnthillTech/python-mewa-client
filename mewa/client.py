@@ -15,13 +15,17 @@ class Connection(object):
     '''
 
     def __init__(self, url):
-        ''' Establish web socket communication '''
-        self._ws = create_connection(url)
-        self._thread = Thread(target=self._run, args=()).start()
+        self._url = url
         
     def connect(self, channel, device, password):
-        ''' Connect device to the channel '''
-        self._send( Protocol.connect(channel, device, password) )
+        ''' Establish web socket communication
+            Connect device to the channel '''
+        try:
+            self._ws = create_connection(self._url)
+            self._thread = Thread(target=self._run, args=()).start()
+            self._send( Protocol.connect(channel, device, password) )
+        except Exception as e:
+            self.onError(str(e))
         
     def close(self):
         ''' Close connection '''

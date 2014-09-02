@@ -5,6 +5,7 @@ Created on 27 lip 2014
 '''
 
 from mewa.client import Connection
+import time
 
 
 #connection = Connection("ws://mewa.cc/ws")
@@ -29,6 +30,9 @@ def onDevicesEvent(timestamp, devices):
     
 def onError(reason):
     print("Error: " + reason)
+    print("Reconnecting in 5 secons.")
+    time.sleep(5)
+    connection.connect("test", "python", "test")
     
 
 if __name__ == "__main__":
