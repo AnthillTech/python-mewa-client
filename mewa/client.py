@@ -29,7 +29,7 @@ class Connection(object):
         
     def onConnected(self): 
         ''' Event send after client was connected to the channel '''
-        print("Connected to the channel")
+        pass
         
     def onError(self, reason):
         ''' Error message received from server '''
@@ -37,11 +37,11 @@ class Connection(object):
         
     def onDeviceJoinedChannel(self, timestamp, name):
         ''' Some device joined channel '''
-        print(name + " joined channel")
+        pass
 
     def onDeviceLeftChannel(self, timestamp, name):
         ''' Some device left channel '''
-        print(name + " left channel")
+        pass
         
     def sendEvent(self, eventId, params):
         ''' Send event to all devices '''
@@ -49,7 +49,7 @@ class Connection(object):
         
     def onEvent(self, timestamp, device, eventId, params):
         ''' Received command to set property to given value '''
-        print("event received")
+        pass
         
     def sendMessage(self, device, msgId, params):
         ''' Send message to specific device '''
@@ -57,7 +57,7 @@ class Connection(object):
         
     def onMessage(self, timestamp, device, msgId, params):
         ''' Received message from device.'''
-        print("message received")
+        pass
         
     def getDevices(self):
         ''' Get list of all connected to the channel devices '''
@@ -65,8 +65,7 @@ class Connection(object):
         
     def onDevicesEvent(self, timestamp, devices):
         ''' Received set property command '''
-        print("devices list:")
-        print(devices)
+        pass
 
         
     def _run(self, *args):
@@ -85,7 +84,6 @@ class Connection(object):
         self._ws.send(msg)
         
     def _on_message(self, msg):
-        print(msg)
         event = json.loads(msg)
         if event['type'] == 'connected':
             self.onConnected()

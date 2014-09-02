@@ -5,7 +5,6 @@ Created on 27 lip 2014
 '''
 
 from mewa.client import Connection
-from mewa.service import URI_DISCOVERY
 
 
 #connection = Connection("ws://mewa.cc/ws")
@@ -14,7 +13,7 @@ connection = Connection("ws://localhost:9000/ws")
 def onConnected():
     connection.getDevices()
     connection.sendEvent("serviceA.event2", "78")
-    params = [{"type": "com.followit24.service.switch", "name": "switch2"}, {"type": "com.followit24.service.switch", "name": "switch1"}, {"type": "com.followit24.service.switch", "name": "switch0"}]
+    params = [{"type": "org.fi24.switch", "name": "switch2"}, {"type": "org.fi24.switch", "name": "switch1"}, {"type": "org.fi24.switch", "name": "switch0"}]
     connection.sendMessage("device66", "serviceA.level", params)
 #     connection.close()
 
