@@ -5,8 +5,8 @@ Created on 2014-07-30
 '''
 import json
 
-def connect(channel, device, password):
-    msg = {"type": "connect", "channel":channel, "device":device, "password":password}
+def connect(channel, device, password, prefixes):
+    msg = {"type": "connect", "channel":channel, "device":device, "password":password, "listenTo": prefixes}
     return json.dumps(msg)
 
 def disconnect():
@@ -15,8 +15,8 @@ def disconnect():
 def getDevices():
     return '{"type": "get-devices"}'
 
-def sendEvent(eventId, params):
-    msg = {"type": "send-event", "id": eventId, "params": json.dumps(params)}
+def sendEvent(eventId, params, ack=False):
+    msg = {"type": "send-event", "id": eventId, "ack": ack, "params": json.dumps(params)}
     return json.dumps(msg)
 
 def sendMessage(device, msgId, params):

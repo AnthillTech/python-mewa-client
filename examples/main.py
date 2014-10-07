@@ -5,18 +5,18 @@ Created on 27 lip 2014
 '''
 
 from mewa.client import Connection
-import time
 
 
-#connection = Connection("ws://mewa.cc/ws")
-connection = Connection("ws://localhost:9000/ws")
+#HOST_URL = "ws://mewa.cc:9001/ws"
+HOST_URL = "ws://localhost:9000/ws"
+
+connection = Connection(HOST_URL)
 
 def onConnected():
     connection.getDevices()
-    connection.sendEvent("serviceA.event2", "78")
+    connection.sendEvent("serviceA.event2", "78", True)
     params = [{"type": "org.fi24.switch", "name": "switch2"}, {"type": "org.fi24.switch", "name": "switch1"}, {"type": "org.fi24.switch", "name": "switch0"}]
     connection.sendMessage("device66", "serviceA.level", params)
-#     connection.close()
 
 def onEvent(timestamp, fromDevice, eventId, params):
     print("received event %s from %s with params %s" % (eventId, fromDevice, params))
@@ -30,9 +30,9 @@ def onDevicesEvent(timestamp, devices):
     
 def onError(reason):
     print("Error: " + reason)
-    print("Reconnecting in 5 secons.")
-    time.sleep(5)
-    connection.connect("test", "python", "test")
+    
+def onAck():
+    print("ACK")
     
 
 if __name__ == "__main__":
@@ -41,6 +41,9 @@ if __name__ == "__main__":
     connection.onMessage = onMessage
     connection.onDevicesEvent = onDevicesEvent
     connection.onError = onError
-    connection.connect("test", "python", "test")
+    connection.onAck = onAck
+#     connection.connect("admin.test", "python", "l631vxqa")
+    connection.connect("test", "python", "l631vxqa")
+
 
 

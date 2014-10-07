@@ -17,13 +17,13 @@ class Connection(object):
     def __init__(self, url):
         self._url = url
         
-    def connect(self, channel, device, password):
+    def connect(self, channel, device, password, prefixes=[]):
         ''' Establish web socket communication
             Connect device to the channel '''
         try:
             self._ws = create_connection(self._url)
             self._thread = Thread(target=self._run, args=()).start()
-            self._send( Protocol.connect(channel, device, password) )
+            self._send( Protocol.connect(channel, device, password, prefixes) )
         except Exception as e:
             self.onError(str(e))
         
@@ -47,12 +47,16 @@ class Connection(object):
         ''' Some device left channel '''
         pass
         
-    def sendEvent(self, eventId, params):
+    def sendEvent(self, eventId, params, ack=False):
         ''' Send event to all devices '''
-        self._send( Protocol.sendEvent(eventId, params) )
+        self._send( Protocol.sendEvent(eventId, params, ack) )
         
     def onEvent(self, timestamp, device, eventId, params):
         ''' Received command to set property to given value '''
+        pass
+        
+    def onAck(self):
+        ''' Received acknowledge packet from server '''
         pass
         
     def sendMessage(self, device, msgId, params):
@@ -103,6 +107,8 @@ class Connection(object):
             self.onMessage(event["time"], event["device"], event["id"], self._parseParams(event["params"]));
         elif event['type'] == "devices-event":
             self.onDevicesEvent(event["time"], event["devices"]);
+        elif event['type'] == "ack":
+            self.onAck();
         else:
             self.onError(event["message"]);
             
