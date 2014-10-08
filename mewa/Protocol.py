@@ -6,7 +6,7 @@ Created on 2014-07-30
 import json
 
 def connect(channel, device, password, prefixes):
-    msg = {"type": "connect", "channel":channel, "device":device, "password":password, "listenTo": prefixes}
+    msg = {"type": "connect", "channel":channel, "device":device, "password":password, "aubscribe": prefixes}
     return json.dumps(msg)
 
 def disconnect():
