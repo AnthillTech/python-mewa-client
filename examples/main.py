@@ -7,8 +7,8 @@ Created on 27 lip 2014
 from mewa.client import Connection
 
 
-#HOST_URL = "ws://mewa.cc:9001/ws"
-HOST_URL = "ws://localhost:9000/ws"
+HOST_URL = "ws://mewa.cc:9001/ws"
+# HOST_URL = "ws://localhost:9000/ws"
 
 connection = Connection(HOST_URL)
 
@@ -42,8 +42,7 @@ if __name__ == "__main__":
     connection.onDevicesEvent = onDevicesEvent
     connection.onError = onError
     connection.onAck = onAck
-#     connection.connect("admin.test", "python", "l631vxqa")
-    connection.connect("test", "python", "l631vxqa")
+    connection.connect("admin.test", "python", "l631vxqa", [""])
 
 
 
